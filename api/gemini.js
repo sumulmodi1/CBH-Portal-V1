@@ -5,7 +5,8 @@ export default async function handler(req, res) {
   const allowedOrigins = [
     'https://sites.google.com',
     'https://www.google.com',
-    'http://localhost:3000', // for testing
+    'http://localhost:3000', 
+    'https://1733643368-atari-embeds.googleusercontent.com', // for testing
     // Add your actual Google Sites URL here if different
   ];
   
