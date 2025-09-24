@@ -1,21 +1,19 @@
-// Save this file as: api/gemini.js in your Vercel project
-
 export default async function handler(req, res) {
   // Enable CORS for your domain
   const allowedOrigins = [
     'https://sites.google.com',
     'https://www.google.com',
-    'http://localhost:3000', 
-    'https://1733643368-atari-embeds.googleusercontent.com', // for testing
-    // Add your actual Google Sites URL here if different
+    'http://localhost:3000',
   ];
   
   const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
+  
+  // Allow all googleusercontent.com subdomains (for Google Sites embeds)
+  if (origin && (allowedOrigins.includes(origin) || origin.includes('googleusercontent.com'))) {
     res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
   }
   
-  res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
@@ -34,7 +32,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get the API key from environment variable (set in Vercel dashboard)
+    // Get the API key from environment variable
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
     
     if (!GEMINI_API_KEY) {
